@@ -33,9 +33,9 @@ public class ThreadEnvironnement extends Thread {
 
 		if (proba < 20) { // 20% de chance qu'un item apparaisse
 			if (objet < 7) // si oui 70% de chance qu'il s'agisse d'une saleté
-				Main.tab[x][y].salete = "O";
+				Main.tab[x][y].salete = true;
 			else // 30% de chance qu'il s'agisse d'un bijou
-				Main.tab[x][y].bijou = "O";
+				Main.tab[x][y].bijou = true;
 		}
 
 	}

@@ -1,14 +1,14 @@
 import java.util.Objects;
 
 public class Case {
-	public String salete;
-	public String bijou;
+	public boolean salete;
+	public boolean bijou;
 	public int x;
 	public int y;
 
 	public Case(int posX, int posY) {
-		this.salete = "N";
-		this.bijou = "N";
+		this.salete = false;
+		this.bijou = false;
 		this.x = posX;
 		this.y = posY;
 	};

@@ -82,19 +82,19 @@ public class Main {
 		System.out.println("----- Mise a Jour de l'Etat de la piece ----- Performance : " + actual_perf);
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				String salete = tab[i][j].salete;
-				String bijou = tab[i][j].bijou;
+				boolean salete = tab[i][j].salete;
+				boolean bijou = tab[i][j].bijou;
 
 				if (aspi.posx == i && aspi.posy == j) {
 
 					System.out.print("\u001B[44m A ");
-				} else if (salete == "O" && bijou == "O") {
+				} else if (salete && bijou) {
 
 					System.out.print("\u001B[43m T ");
-				} else if (salete == "O") {
+				} else if (salete) {
 
 					System.out.print("\u001B[41m P ");
-				} else if (bijou == "O") {
+				} else if (bijou) {
 
 					System.out.print("\u001B[45m B ");
 				} else {

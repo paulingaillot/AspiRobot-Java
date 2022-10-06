@@ -23,23 +23,10 @@ public class ThreadAgent extends Thread {
 
 				majVueAspirateur();
 
-				// Poussiere trouvé = suppression
-
-				if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].bijou == "O") {
-					Main.tab[Main.aspi.posx][Main.aspi.posy].bijou = "N";
-					Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].bijou = "N";
-					Main.aspi.bijouramasse++;
-					Main.aspi.energie_consomme++;
-				} else if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].salete == "O") {
-					Main.tab[Main.aspi.posx][Main.aspi.posy].salete = "N";
-
-					if (Main.tab[Main.aspi.posx][Main.aspi.posy].bijou == "O") {
-						Main.tab[Main.aspi.posx][Main.aspi.posy].bijou = "N";
-						ThreadPerf.bijou_aspiré++;
-					}
-
-					Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].salete = "N";
-					Main.aspi.energie_consomme++;
+				if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].bijou == true) {
+					actionRamasser();
+				} else if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].salete == true) {
+					actionAspirer();
 				}
 
 				if (!STACK.isEmpty()) {
@@ -89,7 +76,7 @@ public class ThreadAgent extends Thread {
 			List<String> arraytab = new ArrayList<>();
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
-					if (Main.aspi.carteAspi[i][j].salete == "O") {
+					if (Main.aspi.carteAspi[i][j].salete == true) {
 						arraytab.add(i + "-" + j);
 						sale = true;
 					}
@@ -127,6 +114,25 @@ public class ThreadAgent extends Thread {
 
 	}
 
+	private void actionRamasser() {
+		Main.tab[Main.aspi.posx][Main.aspi.posy].bijou = false;
+		Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].bijou = false;
+		Main.aspi.bijouramasse++;
+		Main.aspi.energie_consomme++;
+	}
+
+	private void actionAspirer() {
+		Main.tab[Main.aspi.posx][Main.aspi.posy].salete = false;
+
+		if (Main.tab[Main.aspi.posx][Main.aspi.posy].bijou == true) {
+			Main.tab[Main.aspi.posx][Main.aspi.posy].bijou = false;
+			ThreadPerf.bijou_aspiré++;
+		}
+
+		Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].salete = false;
+		Main.aspi.energie_consomme++;
+	}
+
 	static void CalculHeuristique3(List<String> arraytab) {
 
 		for (int k = 0; k < arraytab.size(); k++) {
@@ -139,7 +145,7 @@ public class ThreadAgent extends Thread {
 				for (int j = 0; j < 5; j++) {
 					int dist = (int) Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
 					if (tabHeuristique[i][j] > dist
-							|| (tabHeuristique[i][j] == 0 && Main.aspi.carteAspi[i][j].salete == "N"))
+							|| (tabHeuristique[i][j] == 0 && Main.aspi.carteAspi[i][j].salete == false))
 						tabHeuristique[i][j] = dist;
 				}
 			}
@@ -149,7 +155,7 @@ public class ThreadAgent extends Thread {
 	static void recherche_gloutone(int x, int y) {
 
 		Main.visited[x][y] = 1;
-		if (Main.aspi.carteAspi[x][y].salete == "N") {
+		if (Main.aspi.carteAspi[x][y].salete == false) {
 
 			int k1 = 99999;
 			if (x + 1 < 5 && Main.visited[x + 1][y] == 0)
@@ -190,34 +196,21 @@ public class ThreadAgent extends Thread {
 		int x = caseDepart.x;
 		int y = caseDepart.y;
 		int[][] tabverif = new int[5][5];
-		Map<Case, Case> savedPaths = new HashMap<Case, Case>();
-		Case caseSuivante;
+		Map<Case, Case> cheminsParcourus = new HashMap<Case, Case>();
 
 		tabverif[x][y] = 1;
 
 		if (x + 1 < 5 && tabverif[x + 1][y] == 0) {
-			STACK.add((int) (x + 1) + "-" + y);
-			caseSuivante = new Case(x + 1, y);
-			savedPaths.put(caseSuivante, caseDepart);
-			tabverif[x + 1][y] = 1;
+			changerChemin(cheminsParcourus, caseDepart, x + 1, y, tabverif);
 		}
 		if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
-			STACK.add((int) (x - 1) + "-" + y);
-			caseSuivante = new Case(x - 1, y);
-			savedPaths.put(caseSuivante, caseDepart);
-			tabverif[x - 1][y] = 1;
+			changerChemin(cheminsParcourus, caseDepart, x - 1, y, tabverif);
 		}
 		if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
-			STACK.add(x + "-" + (y + 1));
-			caseSuivante = new Case(x, y + 1);
-			savedPaths.put(caseSuivante, caseDepart);
-			tabverif[x][y + 1] = 1;
+			changerChemin(cheminsParcourus, caseDepart, x, y + 1, tabverif);
 		}
 		if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
-			STACK.add(x + "-" + (y - 1));
-			caseSuivante = new Case(x, y - 1);
-			savedPaths.put(caseSuivante, caseDepart);
-			tabverif[x][y - 1] = 1;
+			changerChemin(cheminsParcourus, caseDepart, x, y - 1, tabverif);
 		}
 
 		while (!STACK.isEmpty()) {
@@ -227,14 +220,14 @@ public class ThreadAgent extends Thread {
 			x = Integer.parseInt(elems[0]);
 			y = Integer.parseInt(elems[1]);
 
-			if (Main.aspi.carteAspi[x][y].salete == "O") {
+			if (Main.aspi.carteAspi[x][y].salete == true) {
 
 				List<Case> shortestPath = new ArrayList<Case>();
 				Case caseF = new Case(x, y);
 
 				while (caseF != null) {
 					shortestPath.add(caseF);
-					caseF = savedPaths.get(caseF);
+					caseF = cheminsParcourus.get(caseF);
 				}
 				Collections.reverse(shortestPath);
 				shortestPath.remove(0);
@@ -245,33 +238,27 @@ public class ThreadAgent extends Thread {
 
 				caseDepart = new Case(x, y);
 				if (x + 1 < 5 && tabverif[x + 1][y] == 0) {
-					STACK.add((int) (x + 1) + "-" + y);
-					caseSuivante = new Case(x + 1, y);
-					savedPaths.put(caseSuivante, caseDepart);
-					tabverif[x + 1][y] = 1;
+					changerChemin(cheminsParcourus, caseDepart, x + 1, y, tabverif);
 				}
 				if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
-					STACK.add((int) (x - 1) + "-" + y);
-					caseSuivante = new Case(x - 1, y);
-					savedPaths.put(caseSuivante, caseDepart);
-					tabverif[x - 1][y] = 1;
+					changerChemin(cheminsParcourus, caseDepart, x - 1, y, tabverif);
 				}
 				if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
-					STACK.add(x + "-" + (y + 1));
-					caseSuivante = new Case(x, y + 1);
-					savedPaths.put(caseSuivante, caseDepart);
-					tabverif[x][y + 1] = 1;
+					changerChemin(cheminsParcourus, caseDepart, x, y + 1, tabverif);
 				}
 				if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
-					STACK.add(x + "-" + (y - 1));
-					caseSuivante = new Case(x, y - 1);
-					savedPaths.put(caseSuivante, caseDepart);
-					tabverif[x][y - 1] = 1;
+					changerChemin(cheminsParcourus, caseDepart, x, y - 1, tabverif);
 				}
 			}
-
 		}
+
 		return new ArrayList<Case>();
 	}
 
+	private static void changerChemin(Map<Case, Case> savedPaths, Case depart, int eX, int eY, int[][] tabVerif) {
+		STACK.add((eX + "-" + eY));
+		Case caseSuivante = new Case(eX, eY);
+		savedPaths.put(caseSuivante, depart);
+		tabVerif[eX][eY] = 1;
+	}
 }

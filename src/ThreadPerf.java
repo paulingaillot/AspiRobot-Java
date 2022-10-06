@@ -30,7 +30,7 @@ public class ThreadPerf extends Thread {
 		int case_propre = 0;
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-				if (Main.tab[i][j].salete == "N")
+				if (Main.tab[i][j].salete == false)
 					case_propre++;
 		}
 	}
