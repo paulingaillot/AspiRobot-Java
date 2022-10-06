@@ -42,7 +42,7 @@ public class Main {
 
 		String choix_interface = reader.readLine();
 
-		if (choix_interface.equals("BFS") || choix_interface.equals("1")) {
+		if (choix_interface.toLowerCase().equals("bfs") || choix_interface.equals("1")) {
 			System.out.println("L'algorithme de recherche utilisé sera le BFS");
 			return 1;
 		} else {
