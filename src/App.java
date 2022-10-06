@@ -121,6 +121,7 @@ public class App {
 
     static int temps=1;
     static int actual_perf=0; 
+    static int bijou_aspiré=0;
     static class ThreadPerf extends Thread {
         public void run() {
 
@@ -138,7 +139,7 @@ public class App {
                     }
                     temps++;
 
-                   actual_perf = (int)((case_propre*2*temps)/((aspi.energie_consomme+1)));
+                   actual_perf = (int)((100*case_propre)/25-20*bijou_aspiré - (15*aspi.energie_consomme)/(temps));
                    if(actual_perf>100) actual_perf=100;
 
                 } catch (InterruptedException e) {
@@ -441,11 +442,13 @@ public class App {
                         aspi.energie_consomme++;
                     } else if (aspi.carteAspi[aspi.posx][aspi.posy].salete == "O") {
                         tab[aspi.posx][aspi.posy].salete = "N";
-                        tab[aspi.posx][aspi.posy].bijou = "N";
 
+                        if( tab[aspi.posx][aspi.posy].bijou == "O") {
+                            tab[aspi.posx][aspi.posy].bijou = "N";
+                            bijou_aspiré++;
+                        }
+                        
                         aspi.carteAspi[aspi.posx][aspi.posy].salete = "N";
-                        aspi.carteAspi[aspi.posx][aspi.posy].bijou = "N";
-
                         aspi.energie_consomme++;
                     }
 
@@ -461,95 +464,6 @@ public class App {
                         aspi.energie_consomme++;
                         affichage();
                     }
-
-                    // Calcul distances poussière
-
-                    /*
-                     * int x = aspi.posx;
-                     * int y = aspi.posy;
-                     * 
-                     * int butx = 0;
-                     * int buty = 0;
-                     * int dist = -1;
-                     * 
-                     * for (int i = 0; i < size; i++) {
-                     * for (int j = 0; j < size; j++) {
-                     * if (x - i >= 0 && y - j >= 0) {
-                     * int dist1 = (int) Math.sqrt(Math.pow(x - (x - i), 2) + Math.pow(y - (y - j),
-                     * 2));
-                     * if (aspi.carteAspi[x - i][y - j].salete == "O"
-                     * || aspi.carteAspi[x - i][y - j].bijou == "O") {
-                     * if (dist == -1 || dist1 < dist) {
-                     * butx = x - i;
-                     * buty = y - j;
-                     * dist = dist1;
-                     * }
-                     * 
-                     * }
-                     * }
-                     * if (x - i >= 0 && y + j < size) {
-                     * int dist1 = (int) Math.sqrt(Math.pow(x - (x - i), 2) + Math.pow(y - (y + j),
-                     * 2));
-                     * if (aspi.carteAspi[x - i][y + j].salete == "O"
-                     * || aspi.carteAspi[x - i][y + j].bijou == "O") {
-                     * if (dist == -1 || dist1 < dist) {
-                     * butx = x - i;
-                     * buty = y + j;
-                     * dist = dist1;
-                     * }
-                     * }
-                     * }
-                     * if (x + i < size && y + j < size) {
-                     * int dist1 = (int) Math.sqrt(Math.pow(x - (x + i), 2) + Math.pow(y - (y + j),
-                     * 2));
-                     * if (aspi.carteAspi[x + i][y + j].salete == "O"
-                     * || aspi.carteAspi[x + i][y + j].bijou == "O") {
-                     * if (dist == -1 || dist1 < dist) {
-                     * butx = x + i;
-                     * buty = y + j;
-                     * dist = dist1;
-                     * }
-                     * }
-                     * }
-                     * if (x + i < size && y - j >= 0) {
-                     * int dist1 = (int) Math.sqrt(Math.pow(x - (x + i), 2) + Math.pow(y - (y - j),
-                     * 2));
-                     * if (aspi.carteAspi[x + i][y - j].salete == "O"
-                     * || aspi.carteAspi[x + i][y - j].bijou == "O") {
-                     * if (dist == -1 || dist1 < dist) {
-                     * butx = x + i;
-                     * buty = y - j;
-                     * dist = dist1;
-                     * }
-                     * }
-                     * }
-                     * 
-                     * }
-                     * }
-                     * // Deplacement
-                     * 
-                     * aspi.last_dist = dist;
-                     * if (dist != -1) {
-                     * if (butx < x) {
-                     * aspi.posx--;
-                     * aspi.energie_consomme++;
-                     * affichage();
-                     * } else if (butx > x) {
-                     * aspi.posx++;
-                     * aspi.energie_consomme++;
-                     * affichage();
-                     * } else if (buty < y) {
-                     * aspi.posy--;
-                     * aspi.energie_consomme++;
-                     * affichage();
-                     * } else if (buty > y) {
-                     * aspi.energie_consomme++;
-                     * aspi.posy++;
-                     * affichage();
-                     * }
-                     * 
-                     * }
-                     */
 
                 } catch (InterruptedException e) {
 
