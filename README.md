@@ -8,9 +8,9 @@ Paulin GAILLOT - GAIP01040108
 
 Alix DUFOUR - DUFA05610001
 
-## Deux Algorithme de Recherche
+## Deux Algorithmes de Recherche
 
-Au demarrage de l'application il vous sera demandé de choisir avec quel algortihme vous souhaitez exécuter la recherche de chemin.
+Au démarrage de l'application il vous sera demandé de choisir avec quel algortihme vous souhaitez exécuter la recherche de chemin.
 
 - Le programme peut être exécuter en utilisant l'algorithme de recherche BFS  (Breath First Search) (Algorithme non-informé)
 
@@ -18,8 +18,8 @@ Au demarrage de l'application il vous sera demandé de choisir avec quel algorti
 
 ## Exécution
 
-Notre programme n'aillant pas d'interface graphique il est nécéssaire de l'exécuter à partir d'une console.
+Notre programme n'aillant pas d'interface graphique il est nécessaire de l'exécuter à partir d'une console.
 
-Après s'être rendu dans le dossier possédant l'exécutable (Robot_Aspi.jar), executez la commande suivante :
+Après s'être rendu dans le dossier possédant l'exécutable (Robot_Aspi.jar), exécutez la commande suivante :
 
    `java -jar Robot_Aspi.jar`
