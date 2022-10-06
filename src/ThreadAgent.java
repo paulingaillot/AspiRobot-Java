@@ -110,9 +110,7 @@ public class ThreadAgent extends Thread {
 					for (int i = 0; i < 5; i++) {
 						for (int j = 0; j < 5; j++) {
 							Main.visited[i][j] = 0;
-							// System.out.print(tabHeuristique[i][j]+" |");
 						}
-						// System.out.print("\n");
 					}
 
 					recherche_gloutone(Main.aspi.posx, Main.aspi.posy);
@@ -136,7 +134,7 @@ public class ThreadAgent extends Thread {
 			String[] results = result.split("-");
 			int x = Integer.parseInt(results[0]);
 			int y = Integer.parseInt(results[1]);
-			// System.out.print(x+"-"+y+"\n");
+
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
 					int dist = (int) Math.sqrt(Math.pow(i - x, 2) + Math.pow(j - y, 2));
@@ -150,7 +148,6 @@ public class ThreadAgent extends Thread {
 
 	static void recherche_gloutone(int x, int y) {
 
-		// STACK.push(Integer.toString(x)+"-"+Integer.toString(y));
 		Main.visited[x][y] = 1;
 		if (Main.aspi.carteAspi[x][y].salete == "N") {
 
@@ -168,7 +165,6 @@ public class ThreadAgent extends Thread {
 				k4 = (int) tabHeuristique[x][y - 1];
 
 			int min = Math.min(Math.min(k1, k2), Math.min(k3, k4));
-			// System.out.println(min + "");
 
 			if (min == k1 && min != 99999) {
 				STACK.add((x + 1) + "-" + y);
@@ -203,65 +199,48 @@ public class ThreadAgent extends Thread {
 			STACK.add((int) (x + 1) + "-" + y);
 			caseSuivante = new Case(x + 1, y);
 			savedPaths.put(caseSuivante, caseDepart);
-			// System.out.println(caseSuivante.toString() + "--" +
-			// savedPaths.get(caseSuivante).toString());
 			tabverif[x + 1][y] = 1;
 		}
 		if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
 			STACK.add((int) (x - 1) + "-" + y);
 			caseSuivante = new Case(x - 1, y);
 			savedPaths.put(caseSuivante, caseDepart);
-			// System.out.println(caseSuivante.toString() + "--" +
-			// savedPaths.get(caseSuivante).toString());
 			tabverif[x - 1][y] = 1;
 		}
 		if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
 			STACK.add(x + "-" + (y + 1));
 			caseSuivante = new Case(x, y + 1);
 			savedPaths.put(caseSuivante, caseDepart);
-			// System.out.println(caseSuivante.toString() + "--" +
-			// savedPaths.get(caseSuivante).toString());
 			tabverif[x][y + 1] = 1;
 		}
 		if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
 			STACK.add(x + "-" + (y - 1));
 			caseSuivante = new Case(x, y - 1);
 			savedPaths.put(caseSuivante, caseDepart);
-			// System.out.println(caseSuivante.toString() + "--" +
-			// savedPaths.get(caseSuivante).toString());
 			tabverif[x][y - 1] = 1;
 		}
 
 		while (!STACK.isEmpty()) {
 			String elem = STACK.remove();
 			String[] elems = elem.split("-");
-			// System.out.print(elem + " ");
+
 			x = Integer.parseInt(elems[0]);
 			y = Integer.parseInt(elems[1]);
 
 			if (Main.aspi.carteAspi[x][y].salete == "O") {
-				// System.out.println(STACK);
+
 				List<Case> shortestPath = new ArrayList<Case>();
 				Case caseF = new Case(x, y);
 
-				// for (Map.Entry<Case, Case> entry : savedPaths.entrySet()) { Case key =
-				// entry.getKey(); Case value = entry.getValue();
-				// System.out.println("Cle: " +
-				// key.toString() + ", Valeur: " + value.toString()); }
-
 				while (caseF != null) {
 					shortestPath.add(caseF);
-					// System.out.println("Ajout du noeud" + caseF.toString());
 					caseF = savedPaths.get(caseF);
 				}
 				Collections.reverse(shortestPath);
 				shortestPath.remove(0);
-				// System.out.println("Chemin a parcourir :");
-				// for (Case caseT : shortestPath) {
-				// System.out.println(caseT.toString());
-				// }
+
 				return shortestPath;
-				// System.out.println(solut);
+
 			} else {
 
 				caseDepart = new Case(x, y);
@@ -269,32 +248,24 @@ public class ThreadAgent extends Thread {
 					STACK.add((int) (x + 1) + "-" + y);
 					caseSuivante = new Case(x + 1, y);
 					savedPaths.put(caseSuivante, caseDepart);
-					// System.out.println(caseSuivante.toString() + "--" +
-					// savedPaths.get(caseSuivante).toString());
 					tabverif[x + 1][y] = 1;
 				}
 				if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
 					STACK.add((int) (x - 1) + "-" + y);
 					caseSuivante = new Case(x - 1, y);
 					savedPaths.put(caseSuivante, caseDepart);
-					// System.out.println(caseSuivante.toString() + "--" +
-					// savedPaths.get(caseSuivante).toString());
 					tabverif[x - 1][y] = 1;
 				}
 				if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
 					STACK.add(x + "-" + (y + 1));
 					caseSuivante = new Case(x, y + 1);
 					savedPaths.put(caseSuivante, caseDepart);
-					// System.out.println(caseSuivante.toString() + "--" +
-					// savedPaths.get(caseSuivante).toString());
 					tabverif[x][y + 1] = 1;
 				}
 				if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
 					STACK.add(x + "-" + (y - 1));
 					caseSuivante = new Case(x, y - 1);
 					savedPaths.put(caseSuivante, caseDepart);
-					// System.out.println(caseSuivante.toString() + "--" +
-					// savedPaths.get(caseSuivante).toString());
 					tabverif[x][y - 1] = 1;
 				}
 			}
@@ -302,6 +273,5 @@ public class ThreadAgent extends Thread {
 		}
 		return new ArrayList<Case>();
 	}
-
 
 }

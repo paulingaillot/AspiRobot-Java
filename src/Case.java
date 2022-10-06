@@ -1,7 +1,6 @@
 import java.util.Objects;
 
 public class Case {
-	// public string etat = "P";
 	public String salete;
 	public String bijou;
 	public int x;
