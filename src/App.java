@@ -81,13 +81,13 @@ public class App {
                     System.out.print("\u001B[43m T ");
                 } else if (salete == "O") {
 
-                    System.out.print("\u001B[41m S ");
+                    System.out.print("\u001B[41m P ");
                 } else if (bijou == "O") {
 
                     System.out.print("\u001B[45m B ");
                 } else {
 
-                    System.out.print("\u001B[42m P ");
+                    System.out.print("\u001B[42m   ");
                 }
                 System.out.print("|");
 
