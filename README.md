@@ -1,18 +1,17 @@
-## Getting Started
+# Robot Aspirateur
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Deux Algorithme de Recherche
 
-## Folder Structure
+Au demarrage de l'application il vous sera demandé de choisir avec quel algortihme vous souhaitez executer la recherche de chemin.
 
-The workspace contains two folders by default, where:
+- Le programme peut être executer en utilisant l'algorithme de recherche BFS  (Breath First Search) (Algorithme non-informé)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Le programme peut egalement être executer en utilisant l'algorithme de recherche gloutonne (Algorithme informé). L'heuristique sera alors la distance mathématique de chaque case a la case sale la plus proche.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Execution
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Notre programme n'aillant pas d'interface graphique il est nécéssaire de l'executer a partir d'une console.
 
-## Dependency Management
+Après s'être rendu dans le dossier possédant l'executable (Robot_Aspi.jar), executez la commande suivante :
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+   `java -jar Robot_Aspu.jar`
