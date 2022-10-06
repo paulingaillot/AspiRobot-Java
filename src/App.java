@@ -118,97 +118,6 @@ public class App {
     }
 
     static int[][] tabHeuristique = new int[5][5];
-    static Stack<String> stack5 = new Stack<String>();
-    static int CalculHeuristique2(int x, int y) {
-
-        
-
-        stack5.push(x+"-"+y);
-        while (!stack5.isEmpty()) {
-            String value = stack5.pop();
-            String[] values = value.split("-");
-
-            x = Integer.parseInt(values[0]);
-            y = Integer.parseInt(values[1]);
-
-            visited[x][y] = 1;
-
-            if (x + 1 < 5 && visited[x+1][y] == 0)
-                stack5.push((x+1)+"-"+y);
-            if (x - 1 >= 0 && visited[x-1][y] == 0)
-               stack5.push((x-1)+"-"+y);
-            if (y + 1 < 5 && visited[x][y+1] == 0)
-                stack5.push((x)+"-"+(y+1));
-            if (y - 1 >= 0&& visited[x][y-1] == 0)
-                stack5.push((x)+"-"+(y-1));
-
-            if(aspi.carteAspi[x][y].salete == "O") tabHeuristique[x][y] = 0;
-            else {
-                int k1 = 9999;
-            int k2 = 9999;
-            int k3 = 9999;
-            int k4 = 9999;
-
-            if (x + 1 < 5)
-                k1 = tabHeuristique[x + 1][ y];
-            if (x - 1 >= 0)
-                k2 = tabHeuristique[x - 1][ y];
-            if (y + 1 < 5)
-                k3 = tabHeuristique[x][y + 1];
-            if (y - 1 >= 0)
-                k4 = tabHeuristique[x][ y - 1];
-
-            tabHeuristique[x][y] = 1 + Math.min(Math.min(k1, k2), Math.min(k3, k4));
-            }
-        }
-        return 0;
-
-        /*if (visited[x][y] == 1) {
-            if(tabHeuristique[x][y] == -1) return 9999; 
-            else return tabHeuristique[x][y];
-        }
-
-        visited[x][y] = 1;
-        if (aspi.carteAspi[x][y].salete == "N") {
-
-            int k1 = 9999;
-            int k2 = 9999;
-            int k3 = 9999;
-            int k4 = 9999;
-
-            if (x + 1 < 5)
-                k1 = CalculHeuristique2(x + 1, y);
-            if (x - 1 >= 0)
-                k2 = CalculHeuristique2(x - 1, y);
-            if (y + 1 < 5)
-                k3 = CalculHeuristique2(x, y + 1);
-            if (y - 1 >= 0)
-                k4 = CalculHeuristique2(x, y - 1);
-
-            tabHeuristique[x][y] = 1 + Math.min(Math.min(k1, k2), Math.min(k3, k4));
-            return tabHeuristique[x][y];
-        } else {
-
-            int k1 = 9999;
-            int k2 = 9999;
-            int k3 = 9999;
-            int k4 = 9999;
-            if (x + 1 < 5)
-            k1 = CalculHeuristique2(x + 1, y);
-        if (x - 1 >= 0)
-            k2 = CalculHeuristique2(x - 1, y);
-        if (y + 1 < 5)
-            k3 = CalculHeuristique2(x, y + 1);
-        if (y - 1 >= 0)
-            k4 = CalculHeuristique2(x, y - 1);
-
-
-            tabHeuristique[x][y] = 0;
-            return 0;
-        }*/
-
-    }
-
     static void CalculHeuristique3(int x, int y) {
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
@@ -218,29 +127,8 @@ public class App {
         }
     }
 
-    static void CalculHeuristique() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (aspi.carteAspi[i][j].salete == "O")
-                    tabHeuristique[i][j] = 0;
-                else if (((i + 1) < 5 && aspi.carteAspi[i + 1][j].salete == "O")
-                        || ((i - 1) >= 0 && aspi.carteAspi[i - 1][j].salete == "O")
-                        || ((j + 1) < 5 && aspi.carteAspi[i][j + 1].salete == "O")
-                        || ((j - 1) >= 0 && aspi.carteAspi[i][j - 1].salete == "O")) {
-                    int value = 5 - ((((i + 1) < 5 && aspi.carteAspi[i + 1][j].salete == "O") ? 1 : 0)
-                            + (((i - 1) >= 0 && aspi.carteAspi[i - 1][j].salete == "O") ? 1 : 0)
-                            + (((j + 1) < 5 && aspi.carteAspi[i][j + 1].salete == "O") ? 1 : 0)
-                            + (((j - 1) >= 0 && aspi.carteAspi[i][j - 1].salete == "O") ? 1 : 0));
-                    tabHeuristique[i][j] = value;
-                } else
-                    tabHeuristique[i][j] = 5;
-
-            }
-        }
-    }
 
     static Queue<String> STACK = new LinkedList<>();
-
     static void recherche_gloutone(int x, int y) {
 
         // STACK.push(Integer.toString(x)+"-"+Integer.toString(y));
@@ -282,7 +170,6 @@ public class App {
     }
 
     static Queue<String> STACK2 = new LinkedList<>();
-
     static void BFS(int x, int y) {
 
         int[][] tabverif = new int[5][5];
@@ -358,21 +245,10 @@ public class App {
                         }
 
                         aspi.energie_consomme++;
-                        // System.out.print(aspi.update_rate_value);
 
                         STACK = new LinkedList<String>();
-
                         tabHeuristique = new int[5][5];
-
-
-                        for (int i = 0; i < 5; i++) {
-                            for (int j = 0; j < 5; j++) {
-                                visited[i][j] = 0;
-                                tabHeuristique[i][j] = -1;
-                            }
-                        }
-
-                       
+      
                         int x = aspi.posx;
                         int y = aspi.posy;
                         boolean sale = false;
@@ -385,7 +261,7 @@ public class App {
                                 }
                             }
                         }
-                        System.out.println(sale);
+
                         if (sale == true) {
                             for (int i = 0; i < 5; i++) {
                                 for (int j = 0; j < 5; j++) {
@@ -393,15 +269,12 @@ public class App {
                                 }
                             }
 
-                            System.out.println(x+"-"+y);
                             CalculHeuristique3(x, y);
 
                             for (int i = 0; i < 5; i++) {
                                 for (int j = 0; j < 5; j++) {
                                     visited[i][j] = 0;
-                                    System.out.print(tabHeuristique[i][j] + "| ");
                                 }
-                                System.out.print("1\n");
                             }
 
                             for (int i = 0; i < 5; i++) {
@@ -411,10 +284,7 @@ public class App {
                             }
 
                             recherche_gloutone(aspi.posx, aspi.posy);
-                            System.out.println(STACK);
                         }
-                        // BFS(aspi.posx, aspi.posy);
-
                         aspi.update_rate = 0;
                     }
 
