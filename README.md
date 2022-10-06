@@ -1,8 +1,7 @@
-
-
 # Robot Aspirateur
 
 ## Etudiants
+
 Aymerick SERGEANT - SERA14129900
 
 Paulin GAILLOT - GAIP01040108
