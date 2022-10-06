@@ -1,6 +1,7 @@
 
 import java.util.*;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class App {
 
@@ -55,6 +56,7 @@ public class App {
     static Case[][] tab = new Case[size][size];
     static Aspirateur aspi = new Aspirateur();
     static int[][] visited = new int[5][5];
+    static int interface_used = 1;
 
     public static void affichage() {
         while (locker == true) {
@@ -104,6 +106,29 @@ public class App {
                 tab[i][j] = new Case();
             }
         }
+
+        // Choix interface 
+
+        System.out.println("Choisir l'algorithme de recherche a utiliser : \n 1- BFS \n 2- Glouton");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        
+
+
+        String choix_interface = reader.readLine();
+
+        if(choix_interface == "BFS" || choix_interface == "1") {
+            interface_used = 1;
+        }else {
+            interface_used = 2;
+        }
+
+        if(interface_used == 1) {
+            System.out.println("L'algorithme de recherche utilisé sera le BFS");
+        }else {
+            System.out.println("L'algorithme de recherche utilisé sera l'algorithme glouton");
+        }
+        affichage();
 
         Thread myThread;
         myThread = new Thread(new ThreadEnvironement());
@@ -402,6 +427,8 @@ public class App {
                         }
 
                         if (sale == true) {
+                            
+                            if(interface_used == 2) {
                             for (int i = 0; i < 5; i++) {
                                 for (int j = 0; j < 5; j++) {
                                     visited[i][j] = 0;
@@ -419,12 +446,13 @@ public class App {
                             }
 
                             recherche_gloutone(aspi.posx, aspi.posy);
-                            
-                            /*List<Case> chemin = BFS(aspi.posx, aspi.posy);
+                        }else {
+                            List<Case> chemin = BFS(aspi.posx, aspi.posy);
                             STACK = new LinkedList<>();
                             for(int i=0; i<chemin.size(); i++) {
                                 STACK.add(chemin.get(i).x+"-"+chemin.get(i).y);
-                            }*/
+                            }
+                        }
                         }
                         aspi.update_rate = 0;
                     }
