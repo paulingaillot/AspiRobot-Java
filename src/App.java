@@ -1,6 +1,6 @@
-import java.io.File;
+
 import java.util.*;
-import java.util.Stack;
+
 
 public class App {
 
@@ -8,6 +8,35 @@ public class App {
         // public string etat = "P";
         public String salete = "N";
         public String bijou = "N";
+        public int x;
+		public int y;
+
+		public Case() {
+		};
+
+		public Case(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+        @Override
+		public int hashCode() {
+			return Objects.hash(x, y);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Case other = (Case) obj;
+			return x == other.x && y == other.y;
+		}
+
+
     }
 
     static class Aspirateur {
@@ -169,53 +198,122 @@ public class App {
         }
     }
 
-    static Queue<String> STACK2 = new LinkedList<>();
-    static void BFS(int x, int y) {
+    static List<Case> BFS(int xCoord, int yCoord) {
 
-        int[][] tabverif = new int[5][5];
+		Case caseDepart = new Case(xCoord, yCoord);
+		int x = caseDepart.x;
+		int y = caseDepart.y;
+		int[][] tabverif = new int[5][5];
+		Map<Case, Case> savedPaths = new HashMap<Case, Case>();
+		Case caseSuivante;
 
-        tabverif[x][y] = 1;
-        if (x + 1 < 5 && tabverif[x + 1][y] == 0)
-            STACK2.add((int) (x + 1) + "-" + y);
-        if (x - 1 >= 0 && tabverif[x - 1][y] == 0)
-            STACK2.add((int) (x - 1) + "-" + y);
-        if (y + 1 < 5 && tabverif[x][y + 1] == 0)
-            STACK2.add(x + "-" + (y + 1));
-        if (y - 1 >= 0 && tabverif[x][y - 1] == 0)
-            STACK2.add(x + "-" + (y - 1));
+		tabverif[x][y] = 1;
 
-        while (!STACK2.isEmpty()) {
-            String elem = STACK2.remove();
-            String[] elems = elem.split("-");
-            // System.out.print(elem + " ");
+		if (x + 1 < 5 && tabverif[x + 1][y] == 0) {
+			STACK.add((int) (x + 1) + "-" + y);
+			caseSuivante = new Case(x + 1, y);
+			savedPaths.put(caseSuivante, caseDepart);
+			// System.out.println(caseSuivante.toString() + "--" +
+			// savedPaths.get(caseSuivante).toString());
+			tabverif[x + 1][y] = 1;
+		}
+		if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
+			STACK.add((int) (x - 1) + "-" + y);
+			caseSuivante = new Case(x - 1, y);
+			savedPaths.put(caseSuivante, caseDepart);
+			// System.out.println(caseSuivante.toString() + "--" +
+			// savedPaths.get(caseSuivante).toString());
+			tabverif[x - 1][y] = 1;
+		}
+		if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
+			STACK.add(x + "-" + (y + 1));
+			caseSuivante = new Case(x, y + 1);
+			savedPaths.put(caseSuivante, caseDepart);
+			// System.out.println(caseSuivante.toString() + "--" +
+			// savedPaths.get(caseSuivante).toString());
+			tabverif[x][y + 1] = 1;
+		}
+		if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
+			STACK.add(x + "-" + (y - 1));
+			caseSuivante = new Case(x, y - 1);
+			savedPaths.put(caseSuivante, caseDepart);
+			// System.out.println(caseSuivante.toString() + "--" +
+			// savedPaths.get(caseSuivante).toString());
+			tabverif[x][y - 1] = 1;
+		}
 
-            x = Integer.parseInt(elems[0]);
-            y = Integer.parseInt(elems[1]);
+		while (!STACK.isEmpty()) {
+			String elem = STACK.remove();
+			String[] elems = elem.split("-");
+			// System.out.print(elem + " ");
+			x = Integer.parseInt(elems[0]);
+			y = Integer.parseInt(elems[1]);
 
-            tabverif[x][y] = 1;
+			if (aspi.carteAspi[x][y].salete == "O") {
+				// System.out.println(STACK);
+				List<Case> shortestPath = new ArrayList<Case>();
+				Case caseF = new Case(x, y);
+				
+				  //for (Map.Entry<Case, Case> entry : savedPaths.entrySet()) { Case key =
+				  //entry.getKey(); Case value = entry.getValue(); 
+                  //System.out.println("Cle: " +
+				  //key.toString() + ", Valeur: " + value.toString()); }
+				 
 
-            if (aspi.carteAspi[x][y].salete == "O") {
-                // System.out.println(STACK2);
-            } else {
-                if (x + 1 < 5 && tabverif[x + 1][y] == 0) {
-                    STACK2.add((x + 1) + "-" + y);
+				while (caseF != null) {
+					shortestPath.add(caseF);
+					 //System.out.println("Ajout du noeud" + caseF.toString());
+					caseF = savedPaths.get(caseF);
+				}
+				Collections.reverse(shortestPath);
+				shortestPath.remove(0);
+				//System.out.println("Chemin a parcourir :");
+				//for (Case caseT : shortestPath) {
+				// System.out.println(caseT.toString());
+				//}
+				return shortestPath;
+				// System.out.println(solut);
+			} else {
 
-                }
-                if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
-                    STACK2.add((x - 1) + "-" + y);
-                }
+				caseDepart = new Case(x, y);
+				if (x + 1 < 5 && tabverif[x + 1][y] == 0) {
+					STACK.add((int) (x + 1) + "-" + y);
+					caseSuivante = new Case(x + 1, y);
+					savedPaths.put(caseSuivante, caseDepart);
+					// System.out.println(caseSuivante.toString() + "--" +
+					// savedPaths.get(caseSuivante).toString());
+					tabverif[x + 1][y] = 1;
+				}
+				if (x - 1 >= 0 && tabverif[x - 1][y] == 0) {
+					STACK.add((int) (x - 1) + "-" + y);
+					caseSuivante = new Case(x - 1, y);
+					savedPaths.put(caseSuivante, caseDepart);
+					// System.out.println(caseSuivante.toString() + "--" +
+					 //savedPaths.get(caseSuivante).toString());
+					tabverif[x - 1][y] = 1;
+				}
+				if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
+					STACK.add(x + "-" + (y + 1));
+					caseSuivante = new Case(x, y + 1);
+					savedPaths.put(caseSuivante, caseDepart);
+					// System.out.println(caseSuivante.toString() + "--" +
+					// savedPaths.get(caseSuivante).toString());
+					tabverif[x][y + 1] = 1;
+				}
+				if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
+					STACK.add(x + "-" + (y - 1));
+					caseSuivante = new Case(x, y - 1);
+					savedPaths.put(caseSuivante, caseDepart);
+					// System.out.println(caseSuivante.toString() + "--" +
+					// savedPaths.get(caseSuivante).toString());
+					tabverif[x][y - 1] = 1;
+				}
+			}
 
-                if (y + 1 < 5 && tabverif[x][y + 1] == 0) {
-                    STACK2.add(x + "-" + (y + 1));
-                }
+		}
+		return new ArrayList<Case>();
+	}
 
-                if (y - 1 >= 0 && tabverif[x][y - 1] == 0) {
-                    STACK2.add(x + "-" + (y - 1));
-                }
-            }
-
-        }
-    }
 
     static class ThreadAgent extends Thread {
         public void run() {
@@ -277,13 +375,13 @@ public class App {
                                 }
                             }
 
-                            for (int i = 0; i < 5; i++) {
-                                for (int j = 0; j < 5; j++) {
-                                    visited[i][j] = 0;
-                                }
+                            //recherche_gloutone(aspi.posx, aspi.posy);
+                            
+                            List<Case> chemin = BFS(aspi.posx, aspi.posy);
+                            STACK = new LinkedList<>();
+                            for(int i=0; i<chemin.size(); i++) {
+                                STACK.add(chemin.get(i).x+"-"+chemin.get(i).y);
                             }
-
-                            recherche_gloutone(aspi.posx, aspi.posy);
                         }
                         aspi.update_rate = 0;
                     }
