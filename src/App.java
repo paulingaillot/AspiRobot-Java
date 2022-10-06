@@ -390,16 +390,12 @@ public class App {
                         STACK = new LinkedList<String>();
                         tabHeuristique = new int[5][5];
       
-                        int x = aspi.posx;
-                        int y = aspi.posy;
                         boolean sale = false;
                         List<String> arraytab = new ArrayList<>();
                         for (int i = 0; i < 5; i++) {
                             for (int j = 0; j < 5; j++) {
                                 if (aspi.carteAspi[i][j].salete == "O") {
                                     arraytab.add(i+"-"+j);
-                                    x = i;
-                                    y = j;
                                     sale = true;
                                 }
                             }
