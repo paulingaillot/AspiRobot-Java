@@ -23,3 +23,5 @@ Notre programme n'aillant pas d'interface graphique il est nécessaire de l'exé
 Après s'être rendu dans le dossier possédant l'exécutable (Robot_Aspi.jar), exécutez la commande suivante :
 
    `java -jar Robot_Aspi.jar`
+
+- Programme testé et fonctionnel sur Java SE 17 et 19
