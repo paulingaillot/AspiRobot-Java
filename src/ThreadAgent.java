@@ -25,7 +25,8 @@ public class ThreadAgent extends Thread {
 
 				if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].bijou == true) {
 					actionRamasser();
-				} else if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].salete == true) {
+				}
+				if (Main.aspi.carteAspi[Main.aspi.posx][Main.aspi.posy].salete == true) {
 					actionAspirer();
 				}
 

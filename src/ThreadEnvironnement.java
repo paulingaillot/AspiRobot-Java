@@ -10,7 +10,7 @@ public class ThreadEnvironnement extends Thread {
 			try {
 
 				// Attente de 500 ms
-				Thread.sleep(1500);
+				Thread.sleep(1200);
 				
 				generationObjet();
 
